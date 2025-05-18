@@ -74,6 +74,7 @@
                 }
                 for (i in data) {
                     
+                    // Get Total Points stored in the stats.points array
                     function addUpPoints(i){
                         // data[i].stat.length
                         let pointsSum = 0
@@ -83,8 +84,10 @@
                         return pointsSum;
                     }
 
+                    // Calculate Average Poitns per game
                     function pointsPergame(i){
-                        return addUpPoints(i) / data[i].stat.length
+                        let ppg = addUpPoints(i) / data[i].stat.length
+                        return ppg.toFixed(1)
                     }
 
                     document.getElementById('player-cards').innerHTML +=
