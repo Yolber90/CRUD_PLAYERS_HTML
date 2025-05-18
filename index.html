@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Hello, world!</title>
+</head>
+
+<body id="body">
+    <div id="nav-header">
+        <!-- Load Navbar -->
+    </div>
+    
+    <!-- Jumbotron -->
+     
+    <div class="jumbotron jumbotron-fluid">
+        <div>
+            <img src="media/eden_ballers_1.jpg" alt="">
+        </div>
+    </div>
+    <!-- Content -->
+
+    <div id="player-cards" class="container">
+
+    </div>
+    <footer class="bg-body-tertiary text-center">
+  <!-- Grid container -->
+  <div class="container p-4"></div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2020 Copyright:
+    <a class="text-body" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+    <script src="javascript/javascript.js"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script>
+        let apiUrl = 'https://crud-player-app.onrender.com/api/players'
+
+        fetch(apiUrl)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .catch(error => console.error('Error:', error))
+            .then(data => {
+                if(!data.length){
+                    document.getElementById('player-cards').innerHTML += 
+                    `
+                    <h1 id='test-h1'>No Players Exist</h1>
+                    `
+                }
+                for (i in data) {
+                    
+                    function addUpPoints(i){
+                        // data[i].stat.length
+                        let pointsSum = 0
+                        for(let x = 0;x < data[i].stat.length; x++){
+                            pointsSum = pointsSum + data[i].stat[x].points
+                        }
+                        return pointsSum;
+                    }
+
+                    function pointsPergame(i){
+                        return addUpPoints(i) / data[i].stat.length
+                    }
+
+                    document.getElementById('player-cards').innerHTML +=
+                        `
+                    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+                        <div id='card' class="card-light-mode card profile-card w-100">
+                            <div class="card-body text-center">
+                                <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Profile" class="rounded-circle profile-img mb-3">
+                                <h3 class="card-title mb-2">${data[i].name}</h3>
+                                <p class="card-text text-muted mb-3">${data[i].nickName}</p>
+                                <!-- MODAL -->
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                                Launch demo modal
+                                </button>
+                                <div id='test-table'>
+                                    <table class="table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                        <th scope="col">Last Game</th>    
+                                        <th scope="col">Points Last Game</th>   
+                                        <th scope="col">Total Points</th>
+                                        <th scope="col">Total Games Played</th>
+                                        <th scope="col">PPG</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <tr>
+                                        <td>${data[i].stat[data[i].stat.length - 1].gamedate}</td>
+                                        <td scope="row">${data[i].stat[data[i].stat.length - 1].points}</td>
+                                        <td>${addUpPoints(i)}</td>
+                                        <td>${data[i].stat.length}</td>
+                                        <td>${pointsPergame(i)}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                               
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                `
+                }
+            })
+        $(document).ready(function () {
+            $('#myModal').modal(focus)
+        });
+        
+
+        // let switcher = document.getElementById('tester')
+        
+        // Dark Mode -- backlogged feature
+        // let switcher = document.getElementById('tester')
+        // switcher.addEventListener('click', function(event){
+
+        //     let currentClass = body.className
+        //     let cards = document.getElementById('card')
+            
+        //     console.log(cards.classList[0])
+        //     //console.log((currentClass == '.dark-mode'? '.light-mode' : '.dark-mode'))
+
+        //     body.className = currentClass == 'dark-mode'? 'light-mode' : 'dark-mode'
+        //     // cards.className = cards.classList[0] == 'card-dark-mode'? 'card-light-mode' : 'card-dark-mode'
+
+        // })
+        
+
+
+
+    </script>
+</body>
+
+</html>

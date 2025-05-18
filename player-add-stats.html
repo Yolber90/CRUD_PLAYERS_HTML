@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <div id="nav-header">
+        <!-- Load Navbar -->
+    </div>	
+
+    <!-- Jumbotron -->
+    <div class="jumbotron jumbotron-fluid">
+        <div>
+            <img src="media/eden_ballers_1.jpg" alt="">
+        </div>
+    </div>
+    <!-- Content -->
+
+    <div class="container">
+        <!-- FORM -->
+        <form id="updateForm" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+
+            <!-- Drop Down to select Player -->
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">Select Player adding points for</label>
+                <select onchange="changeFunction(this)" class="form-control" id="load-options">
+                    <option>Select Player</option>
+                </select>
+            </div>
+            <h4>Enter Player Stats</h4>
+
+            <div class="mb-3">
+                <label class="form-label">Points Scored Today</label>
+                <input id="threes" name='points' class="form-control">
+            </div>
+            
+            <button onclick="myFunction()" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <script src="javascript/javascript.js"></script>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+        <script>
+
+            // const apiUrl = 'http://localhost:3000api/players/68275e42351b23f80db35c6d'
+
+            document.getElementById('updateForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                let form = event.target
+                let formdata = new FormData(form)
+
+                fetch(form.action, {
+                    method: 'PUT',
+                    body: JSON.stringify(Object.fromEntries(formdata.entries())),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Sucess:', data)
+                    })
+                    .catch(error => {
+                        console.error('Error', error)
+                    })
+            })
+
+
+            let apiUrl2 = 'https://crud-player-app.onrender.com/api/players'
+
+            fetch(apiUrl2)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .catch(error => console.error('Error:', error))
+                .then(data => {
+                    for (i in data) {
+                        document.getElementById('load-options').innerHTML +=
+                            `<option id=${data[i]._id}>${data[i].name}</option>`
+                    }
+                })
+
+            function changeFunction(element) {
+                let selectValue = element.value
+
+                fetch("https://crud-player-app.onrender.com/api/query?name=" + selectValue)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .catch(error => console.error('Error:', error))
+                    .then(data => {
+                        console.log(`Selected value is now: ${data[0]._id}`)
+                        document.getElementById("updateForm").action = `https://crud-player-app.onrender.com/api/players/${data[0]._id}`
+                    })
+            }
+
+
+        </script>
+</body>
+
+</html>

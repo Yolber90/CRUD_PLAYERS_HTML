@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <div id="nav-header">
+        <!-- Load Navbar -->
+    </div>	
+    </nav>
+        <!-- Jumbotron -->
+        <div class="jumbotron jumbotron-fluid">
+            <div>
+                <img  src="media/eden_ballers_1.jpg" alt="">
+            </div>
+        </div>
+    <div class="container">
+        <h1>All Players</h1>
+        <div id="player-delete">
+            <form action="/api/players">
+                <div class="list-group">
+                    <li class="list-group-item list-group-item-warning"><h4>Delete Players</h4></li>
+                    <div id="here">
+
+                    </div>
+
+
+                  </div>
+            </form>
+
+        </div>
+
+    </div>
+    
+    <script src="javascript/javascript.js"></script>
+        <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script>
+        // API Url
+        const playersApi = 'https://crud-player-app.onrender.com/api/players';
+
+
+        fetch(playersApi)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json(); // or response.text() for other data types
+            })
+            .catch(error => { console.error('Fetch error:', error); })
+            .then(data => {
+                for (i in data) {
+                    document.getElementById("player-delete").innerHTML +=
+                    `
+                    <li class="list-group-item">
+                        <p>${data[i].name}</p>
+                        <button id=${data[i]._id} class="btn btn-danger" onclick='clicked(this)'>DELETE</button>
+                    </li>
+
+                    
+                    `
+                }
+            })
+
+        let delId
+        function clicked(element) {
+            delId = element.id
+            fetch(apiUrl + "/" + delId, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    // Handle the response (e.g., check for success, etc.)
+                    if (response.ok) {
+                        // Data was successfully deleted on the server
+                        console.log("Data deleted successfully");
+                    } else {
+                        // Handle errors
+                        console.error("Error deleting data:", response.statusText);
+                    }
+                })
+                .catch(error => {
+                    // Handle network errors
+                    console.error("Network error:", error);
+                });
+
+
+            location.reload();
+
+        }
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
