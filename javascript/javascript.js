@@ -159,7 +159,7 @@ fetch(apiUrl)
                                 <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
                                     style="width: 45px; height: 45px" class="rounded-circle" />
                                 <div class="ms-3">
-                                    <p class="fw-bold mb-1">${data[i].name}</p>
+                                    <a href="#" id=${data[i]._id} class='modal-toggle' data-toggle="modal" data-target="#exampleModalCenter" >${data[i].name}</a>
                                     <p class="text-muted mb-0">-${data[i].nickName}</p>
                                 </diOhv>
                             </div>
@@ -174,16 +174,13 @@ fetch(apiUrl)
                         </td>
 
                         <td>
-                            <span  class="badge badge-success rounded-pill d-inline">${pointsPergame(i)}</span>
+                            <span class="badge badge-success rounded-pill d-inline">${pointsPergame(i)}</span>
                         </td>
                             
-                        <td>
-                            
-                            <button  id=${data[i]._id}  type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                                View Player
-                            </button>
-                        </td>
+
                     </tr>
+
+
                    
                     `
 

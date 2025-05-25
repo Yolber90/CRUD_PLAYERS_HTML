@@ -126,7 +126,9 @@ content: "SFSDF";
   height: 20px;
   font-size: 10px;
   padding: 0px;
-  margin-left: -10px;
+  margin: auto;
+  
 }
+
 
 /* End Modal Styles */
