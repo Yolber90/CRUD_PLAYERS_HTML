@@ -87,9 +87,12 @@ fetch(apiUrl)
 
 
             // variable declarations
-            const historyId = document.getElementById('modal-body-history-stats')
-            const bioIdTable = document.getElementById('bio-table')
             const clickedId = event.target.id
+            const historyId = document.getElementById('modal-body-history-stats')
+            const playerNumber = document.getElementById('player-number')
+            const title = document.getElementById('modal-title')
+            const bioData = document.getElementById('player-bio')
+            const bioTable = document.getElementById('bio-table')
             let playerData = [...data]
             console.log(clickedId)
 
@@ -108,7 +111,37 @@ fetch(apiUrl)
 
             const loadTables = () => {
                
-                playerData.stat.forEach(player => {
+               title.innerHTML = playerData.name
+               
+               playerNumber.innerHTML = `<p>#${playerData.number}</p>`
+                
+                bioTable.innerHTML +=
+                `
+                <tr>
+                    <td>Nick Name:</td>
+                    <td>${playerData.nickName}</td>
+                </tr>
+                <tr>
+                    <td>Nationality:</td>
+                    <td>${playerData.nationality}</td>
+                </tr>
+                <tr>
+                    <td>Age:</td>
+                    <td>${playerData.measurements.age}</td>
+                </tr>
+                <tr>
+                    <td>Height:</td>
+                    <td>${playerData.measurements.height}</td>
+                </tr>
+                <tr>
+                    <td>Weight:</td>
+                    <td>${playerData.measurements.weight}</td>
+                </tr>
+                `
+                
+
+                
+               playerData.stat.forEach(player => {
                     historyId.innerHTML +=
                         `
                             <td>${player.gamedate}</td>
@@ -116,19 +149,20 @@ fetch(apiUrl)
                             `
                 });
 
-                bioIdTable.innerHTML +=
-                `
-                    <td>
-                        <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
-                        style="width: 45px; height: 45px" class="rounded-circle" />
-                    </td>
-                    <td>#${playerData.number}</td>
-                    <td>${playerData.nickName}</td>
-                    <td>${playerData.nationality}</td>
-                    <td>${playerData.measurements.age}</td>
-                    <td>${playerData.measurements.weight}</td>
-                    <td>${playerData.measurements.height}</td>
-                `
+                
+
+                // bioData.innerHTML +=
+                // `
+                //     <td>
+                        
+                //     </td>
+                //     <td>#${playerData.number}</td>
+                //     <td>${playerData.nickName}</td>
+                //     <td>${playerData.nationality}</td>
+                //     <td>${playerData.measurements.age}</td>
+                //     <td>${playerData.measurements.weight}</td>
+                //     <td>${playerData.measurements.height}</td>
+                // `
             }
 
 
@@ -136,7 +170,7 @@ fetch(apiUrl)
 
             const clearTables = () => {
                 historyId.innerHTML     = '';
-                bioIdTable.innerHTML    = '';
+                bioTable.innerHTML    = '';
             }
 
             clearTables() // Clear Tables before opening Modal
