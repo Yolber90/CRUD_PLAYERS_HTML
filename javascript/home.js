@@ -55,6 +55,7 @@ fetch(apiUrl)
                 playerData = playerData[0]
 
             }
+            
 
             capturePlayerDataById()
 
@@ -89,9 +90,12 @@ fetch(apiUrl)
                     <td>${playerData.measurements.weight}</td>
                 </tr>
                 `
-                
-                
-               playerData.stat.forEach(player => {
+                // Get the last 10 stat's to display in the history table, reverse to display the last game first
+                let lastTenGames = [...playerData.stat.slice(-10).reverse()]
+
+                // loop through all stats (last 10) and render to the modal-history-table
+                lastTenGames.forEach(player => {
+
                     historyId.innerHTML +=
                         `
                             <td>${player.gamedate}</td>
@@ -101,9 +105,6 @@ fetch(apiUrl)
 
 
             }
-
-
-
 
             const clearTables = () => {
                 historyId.innerHTML     = '';
