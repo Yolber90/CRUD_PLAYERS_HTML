@@ -9,40 +9,30 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <title>Hello, world!</title>
+    <title>Delete Player</title>
 </head>
 
 <body>
     <div id="nav-header">
         <!-- Load Navbar -->
-    </div>	
-    </nav>
-        <!-- Jumbotron -->
-        <div class="jumbotron jumbotron-fluid">
-            <div>
-                <img  src="media/eden_ballers_1.jpg" alt="">
-            </div>
-        </div>
+    </div>
+
     <div class="container">
         <h1>All Players</h1>
         <div id="player-delete">
             <form action="/api/players">
                 <div class="list-group">
-                    <li class="list-group-item list-group-item-warning"><h4>Delete Players</h4></li>
-                    <div id="here">
-
-                    </div>
-
-
-                  </div>
+                    <li class="list-group-item list-group-item-warning">
+                        <h4>Delete Players</h4>
+                    </li>
+                </div>
             </form>
-
         </div>
-
     </div>
-    
-    <script src="javascript/javascript.js"></script>
-        <!-- Optional JavaScript -->
+
+
+    <script src="javascript/main.js"></script>
+    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -69,13 +59,11 @@
             .then(data => {
                 for (i in data) {
                     document.getElementById("player-delete").innerHTML +=
-                    `
+                        `
                     <li class="list-group-item">
                         <p>${data[i].name}</p>
                         <button id=${data[i]._id} class="btn btn-danger" onclick='clicked(this)'>DELETE</button>
                     </li>
-
-                    
                     `
                 }
             })
@@ -83,7 +71,7 @@
         let delId
         function clicked(element) {
             delId = element.id
-            fetch(apiUrl + "/" + delId, {
+            fetch(playersApi + "/" + delId, {
                 method: 'DELETE'
             })
                 .then(response => {
@@ -101,19 +89,8 @@
                     console.error("Network error:", error);
                 });
 
-
             location.reload();
-
         }
-
-
-
-
-
-
-
-
-
 
     </script>
 
